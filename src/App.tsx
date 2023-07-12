@@ -386,7 +386,7 @@ export default function Home() {
                         [address, desiredTokenAmount],
                         {
                           value: ethers.utils.parseEther(
-                            (0.101 * desiredTokenAmount).toString()
+                            (0.1515 * desiredTokenAmount).toString()
                           ),
                         }
                       );
