@@ -84,7 +84,7 @@ export default function Home() {
     return BigNumber.from(claimedSupply.data || 0).toString();
   }, [claimedSupply]);
 
-  const { contract: totalSupplyContract } = useContract("0xe6F328aD226B38801FF0216b4Bb7F03d629E85A5");
+  const { contract: totalSupplyContract } = useContract("0x4E6b4e87EBc5390772916F64DBbd5f4FAeD9b944");
   const { data: numberTotal, isLoading: totalSupplyLoading } = useContractRead(totalSupplyContract, "totalSupply", []);
 
   const priceToMint = useMemo(() => {
@@ -352,7 +352,7 @@ export default function Home() {
                 <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-center lg:gap-4 ">
 
                   <Web3Button
-                    contractAddress="0xe6F328aD226B38801FF0216b4Bb7F03d629E85A5"
+                    contractAddress="0x4E6b4e87EBc5390772916F64DBbd5f4FAeD9b944"
                     action={(contract) => { contract.call("mint", [], { value: ethers.utils.parseEther("0.101") }) }}
                     onSuccess={() => {
                       toast({
