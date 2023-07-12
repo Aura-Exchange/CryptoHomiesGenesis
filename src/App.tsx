@@ -55,7 +55,7 @@ export default function Home() {
 
   const handleCheckoutClick = () => {
     window.open(
-      'https://withpaper.com/checkout/94db6d85-5d32-47f7-8230-e55861799422',
+      'https://withpaper.com/checkout/a7f941f2-0cc7-480e-8438-c5657f2275ef',
       '_blank'
     );
   };
