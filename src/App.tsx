@@ -46,7 +46,7 @@ const colors = {
 export default function Home() {
   const handleCheckoutClick = () => {
     window.open(
-      "https://withpaper.com/checkout/94db6d85-5d32-47f7-8230-e55861799422",
+      "https://withpaper.com/checkout/8a274b3f-3dfc-4089-89f3-fe3c1d4e20d7",
       "_blank"
     );
   };
