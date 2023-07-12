@@ -27,7 +27,10 @@ import {
 import { CrossmintPayButton } from '@crossmint/client-sdk-react-ui';
 
 const urlParams = new URL(window.location.toString()).searchParams;
-const contractAddress = urlParams.get('0x5f8eD33d9eC6B28DAafa9A1f9faDff3D9f94e5fB') || contractConst || '';
+const contractAddress =
+  urlParams.get('0x5f8eD33d9eC6B28DAafa9A1f9faDff3D9f94e5fB') ||
+  contractConst ||
+  '';
 const primaryColor =
   urlParams.get('primaryColor') || primaryColorConst || undefined;
 
@@ -299,10 +302,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-screen">
-    <ConnectWallet
-      className="!absolute !right-4 !top-4"
-      theme={theme}
-    />
+      <ConnectWallet className="!absolute !right-4 !top-4" theme={theme} />
 
       <div className="grid h-screen grid-cols-1 lg:grid-cols-12">
         <div className="hidden h-full w-full items-center justify-center lg:col-span-5 lg:flex lg:px-12">
@@ -356,7 +356,7 @@ export default function Home() {
                 )}
               </h1>
               {contractMetadata.data?.description ||
-                contractMetadata.isLoading ? (
+              contractMetadata.isLoading ? (
                 <div className="line-clamp-2 text-gray-500">
                   {contractMetadata.isLoading ? (
                     <div
@@ -381,15 +381,11 @@ export default function Home() {
                   <Web3Button
                     contractAddress="0x5f8eD33d9eC6B28DAafa9A1f9faDff3D9f94e5fB"
                     action={(contract) => {
-                      contract.call(
-                        'mint',
-                        [address, desiredTokenAmount],
-                        {
-                          value: ethers.utils.parseEther(
-                            (0.1515 * desiredTokenAmount).toString()
-                          ),
-                        }
-                      );
+                      contract.call('mint', [address, desiredTokenAmount], {
+                        value: ethers.utils.parseEther(
+                          (0.1515 * desiredTokenAmount).toString()
+                        ),
+                      });
                     }}
                     onSuccess={() => {
                       toast({
@@ -403,21 +399,30 @@ export default function Home() {
                   >
                     mint
                   </Web3Button>
-                  <label>
-                    Number of Genesis:
-                    <input
-                      type="number"
-                      value={desiredTokenAmount}
-                      min="1"
-                      max="10"
-                      onChange={handleInputChange}
-                    />
-                  </label>
-                  <button onClick={handleCheckoutClick} style={{ backgroundColor: 'white', borderRadius: '8px', color: 'black', minWidth: '150px', minHeight: '43px' }}>
+                  <label htmlFor="tokenAmount">Number of Genesis:</label>
+                  <select
+                    id="tokenAmount"
+                    value={desiredTokenAmount}
+                    onChange={handleInputChange}
+                  >
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    onClick={handleCheckoutClick}
+                    style={{
+                      backgroundColor: 'white',
+                      borderRadius: '8px',
+                      color: 'black',
+                      minWidth: '150px',
+                      minHeight: '43px',
+                    }}
+                  >
                     Mint with Paper
                   </button>
-
-
                 </div>
               </div>
             </div>
