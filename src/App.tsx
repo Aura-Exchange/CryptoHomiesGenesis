@@ -27,7 +27,7 @@ import {
 import { CrossmintPayButton } from '@crossmint/client-sdk-react-ui';
 
 const urlParams = new URL(window.location.toString()).searchParams;
-const contractAddress = urlParams.get('contract') || contractConst || '';
+const contractAddress = urlParams.get('0x5f8eD33d9eC6B28DAafa9A1f9faDff3D9f94e5fB') || contractConst || '';
 const primaryColor =
   urlParams.get('primaryColor') || primaryColorConst || undefined;
 
@@ -299,6 +299,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-screen">
+    <ConnectWallet
+      className="!absolute !right-4 !top-4"
+      theme={theme}
+    />
 
       <div className="grid h-screen grid-cols-1 lg:grid-cols-12">
         <div className="hidden h-full w-full items-center justify-center lg:col-span-5 lg:flex lg:px-12">
