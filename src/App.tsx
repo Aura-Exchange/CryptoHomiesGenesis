@@ -1,3 +1,5 @@
+import React, { useMemo, useState } from 'react';
+import { BigNumber, ethers, utils } from 'ethers';
 import {
   ConnectWallet,
   useActiveClaimConditionForWallet,
@@ -12,50 +14,58 @@ import {
   useNFT,
   useUnclaimedNFTSupply,
   Web3Button,
-} from "@thirdweb-dev/react";
-import { BigNumber, ethers, utils } from "ethers";
-import { useMemo, useState } from "react";
-import { HeadingImage } from "./components/HeadingImage";
-import { PoweredBy } from "./components/PoweredBy";
-import { useToast } from "./components/ui/use-toast";
-import { parseIneligibility } from "./utils/parseIneligibility";
+} from '@thirdweb-dev/react';
+import { HeadingImage } from './components/HeadingImage';
+import { PoweredBy } from './components/PoweredBy';
+import { useToast } from './components/ui/use-toast';
+import { parseIneligibility } from './utils/parseIneligibility';
 import {
   contractConst,
   primaryColorConst,
   themeConst,
-} from "./consts/parameters";
-import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
+} from './consts/parameters';
+import { CrossmintPayButton } from '@crossmint/client-sdk-react-ui';
 
 const urlParams = new URL(window.location.toString()).searchParams;
-const contractAddress = urlParams.get("contract") || contractConst || "";
+const contractAddress = urlParams.get('contract') || contractConst || '';
 const primaryColor =
-  urlParams.get("primaryColor") || primaryColorConst || undefined;
+  urlParams.get('primaryColor') || primaryColorConst || undefined;
 
 const colors = {
-  purple: "#7C3AED",
-  blue: "#3B82F6",
-  orange: "#F59E0B",
-  pink: "#EC4899",
-  green: "#10B981",
-  red: "#EF4444",
-  teal: "#14B8A6",
-  cyan: "#22D3EE",
-  yellow: "#FBBF24",
+  purple: '#7C3AED',
+  blue: '#3B82F6',
+  orange: '#F59E0B',
+  pink: '#EC4899',
+  green: '#10B981',
+  red: '#EF4444',
+  teal: '#14B8A6',
+  cyan: '#22D3EE',
+  yellow: '#FBBF24',
 } as const;
 
 export default function Home() {
+  const [desiredTokenAmount, setDesiredTokenAmount] = useState(1);
+
+  const handleInputChange = (event: { target: { value: string; }; }) => {
+    let value = parseInt(event.target.value);
+    if (value >= 1 && value <= 10) {
+      setDesiredTokenAmount(value);
+    }
+  };
+
   const handleCheckoutClick = () => {
     window.open(
-      "https://withpaper.com/checkout/8a274b3f-3dfc-4089-89f3-fe3c1d4e20d7",
-      "_blank"
+      'https://withpaper.com/checkout/94db6d85-5d32-47f7-8230-e55861799422',
+      '_blank'
     );
   };
+
   const contractQuery = useContract(contractAddress);
   const contractMetadata = useContractMetadata(contractQuery.contract);
   const { toast } = useToast();
-  const theme = (urlParams.get("theme") || themeConst || "light") as
-    | "light"
-    | "dark";
+  const theme = (urlParams.get('theme') || themeConst || 'light') as
+    | 'light'
+    | 'dark';
   const root = window.document.documentElement;
   root.classList.add(theme);
   const address = useAddress();
@@ -63,37 +73,46 @@ export default function Home() {
   const claimConditions = useClaimConditions(contractQuery.contract);
   const activeClaimCondition = useActiveClaimConditionForWallet(
     contractQuery.contract,
-    address,
+    address
   );
-  const claimerProofs = useClaimerProofs(contractQuery.contract, address || "");
+  const claimerProofs = useClaimerProofs(
+    contractQuery.contract,
+    address || ''
+  );
   const claimIneligibilityReasons = useClaimIneligibilityReasons(
     contractQuery.contract,
     {
       quantity,
-      walletAddress: address || "",
-    },
+      walletAddress: address || '',
+    }
   );
   const unclaimedSupply = useUnclaimedNFTSupply(contractQuery.contract);
   const claimedSupply = useClaimedNFTSupply(contractQuery.contract);
   const { data: firstNft, isLoading: firstNftLoading } = useNFT(
     contractQuery.contract,
-    0,
+    0
   );
 
   const numberClaimed = useMemo(() => {
     return BigNumber.from(claimedSupply.data || 0).toString();
   }, [claimedSupply]);
 
-  const { contract: totalSupplyContract } = useContract("0x4E6b4e87EBc5390772916F64DBbd5f4FAeD9b944");
-  const { data: numberTotal, isLoading: totalSupplyLoading } = useContractRead(totalSupplyContract, "totalSupply", []);
+  const { contract: totalSupplyContract } = useContract(
+    '0x5f8eD33d9eC6B28DAafa9A1f9faDff3D9f94e5fB'
+  );
+  const { data: numberTotal, isLoading: totalSupplyLoading } = useContractRead(
+    totalSupplyContract,
+    'totalSupply',
+    []
+  );
 
   const priceToMint = useMemo(() => {
     const bnPrice = BigNumber.from(
-      activeClaimCondition.data?.currencyMetadata.value || 0,
+      activeClaimCondition.data?.currencyMetadata.value || 0
     );
     return `${utils.formatUnits(
       bnPrice.mul(quantity).toString(),
-      activeClaimCondition.data?.currencyMetadata.decimals || 18,
+      activeClaimCondition.data?.currencyMetadata.decimals || 18
     )} ${activeClaimCondition.data?.currencyMetadata.symbol}`;
   }, [
     activeClaimCondition.data?.currencyMetadata.decimals,
@@ -106,7 +125,7 @@ export default function Home() {
     let bnMaxClaimable;
     try {
       bnMaxClaimable = BigNumber.from(
-        activeClaimCondition.data?.maxClaimableSupply || 0,
+        activeClaimCondition.data?.maxClaimableSupply || 0
       );
     } catch (e) {
       bnMaxClaimable = BigNumber.from(1_000_000);
@@ -115,7 +134,7 @@ export default function Home() {
     let perTransactionClaimable;
     try {
       perTransactionClaimable = BigNumber.from(
-        activeClaimCondition.data?.maxClaimablePerWallet || 0,
+        activeClaimCondition.data?.maxClaimablePerWallet || 0
       );
     } catch (e) {
       perTransactionClaimable = BigNumber.from(1_000_000);
@@ -128,7 +147,7 @@ export default function Home() {
     const snapshotClaimable = claimerProofs.data?.maxClaimable;
 
     if (snapshotClaimable) {
-      if (snapshotClaimable === "0") {
+      if (snapshotClaimable === '0') {
         // allowed unlimited for the snapshot
         bnMaxClaimable = BigNumber.from(1_000_000);
       } else {
@@ -164,9 +183,9 @@ export default function Home() {
     try {
       return (
         (activeClaimCondition.isSuccess &&
-          BigNumber.from(activeClaimCondition.data?.availableSupply || 0).lte(
-            0,
-          )) ||
+          BigNumber.from(
+            activeClaimCondition.data?.availableSupply || 0
+          ).lte(0)) ||
         numberClaimed === numberTotal
       );
     } catch (e) {
@@ -209,31 +228,34 @@ export default function Home() {
 
   const buttonLoading = useMemo(
     () => isLoading || claimIneligibilityReasons.isLoading,
-    [claimIneligibilityReasons.isLoading, isLoading],
+    [claimIneligibilityReasons.isLoading, isLoading]
   );
 
   const buttonText = useMemo(() => {
     if (isSoldOut) {
-      return "Sold Out";
+      return 'Sold Out';
     }
 
     if (canClaim) {
       const pricePerToken = BigNumber.from(
-        activeClaimCondition.data?.currencyMetadata.value || 0,
+        activeClaimCondition.data?.currencyMetadata.value || 0
       );
       if (pricePerToken.eq(0)) {
-        return "Mint (Free)";
+        return 'Mint (Free)';
       }
       return `Mint (${priceToMint})`;
     }
     if (claimIneligibilityReasons.data?.length) {
-      return parseIneligibility(claimIneligibilityReasons.data, quantity);
+      return parseIneligibility(
+        claimIneligibilityReasons.data,
+        quantity
+      );
     }
     if (buttonLoading) {
-      return "Checking eligibility...";
+      return 'Checking eligibility...';
     }
 
-    return "Minting not available";
+    return 'Minting not available';
   }, [
     isSoldOut,
     canClaim,
@@ -247,8 +269,10 @@ export default function Home() {
   const dropNotReady = useMemo(
     () =>
       claimConditions.data?.length === 0 ||
-      claimConditions.data?.every((cc) => cc.maxClaimableSupply === "0"),
-    [claimConditions.data],
+      claimConditions.data?.every(
+        (cc) => cc.maxClaimableSupply === '0'
+      ),
+    [claimConditions.data]
   );
 
   const dropStartingSoon = useMemo(
@@ -262,7 +286,7 @@ export default function Home() {
       activeClaimCondition.data,
       activeClaimCondition.isError,
       claimConditions.data,
-    ],
+    ]
   );
 
   if (!contractAddress) {
@@ -275,7 +299,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-screen">
-      <ConnectWallet className="!absolute !right-4 !top-4" theme={theme} />
+      <ConnectWallet
+        className="!absolute !right-4 !top-4"
+        theme={theme}
+      />
       <div className="grid h-screen grid-cols-1 lg:grid-cols-12">
         <div className="hidden h-full w-full items-center justify-center lg:col-span-5 lg:flex lg:px-12">
           <HeadingImage
@@ -350,24 +377,44 @@ export default function Home() {
             <div className="flex w-full gap-4">
               <div className="flex w-full flex-col gap-4">
                 <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-center lg:gap-4 ">
-
                   <Web3Button
-                    contractAddress="0x4E6b4e87EBc5390772916F64DBbd5f4FAeD9b944"
-                    action={(contract) => { contract.call("mint", [], { value: ethers.utils.parseEther("0.101") }) }}
+                    contractAddress="0x5f8eD33d9eC6B28DAafa9A1f9faDff3D9f94e5fB"
+                    action={(contract) => {
+                      contract.call(
+                        'mint',
+                        [address, desiredTokenAmount],
+                        {
+                          value: ethers.utils.parseEther(
+                            (0.101 * desiredTokenAmount).toString()
+                          ),
+                        }
+                      );
+                    }}
                     onSuccess={() => {
                       toast({
-                        title: "Successfully minted",
+                        title: 'Successfully minted',
                         description:
-                          "1 Crypto Homie Genesis and 3 Crypto Homies Commons have been transferred to your wallet!",
+                          '1 Crypto Homie Genesis and 3 Crypto Homies Commons have been transferred to your wallet!',
                         duration: 5000,
-                        className: "bg-green-500",
+                        className: 'bg-green-500',
                       });
                     }}
                   >
-                    Mint Now
+                    mint
                   </Web3Button>
-                  <button onClick={handleCheckoutClick}>Mint with Paper</button>
-
+                  <label>
+                    Number of Genesis:
+                    <input
+                      type="number"
+                      value={desiredTokenAmount}
+                      min="1"
+                      max="10"
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                  <button onClick={handleCheckoutClick}>
+                    Mint with Paper
+                  </button>
                 </div>
               </div>
             </div>
