@@ -55,7 +55,7 @@ export default function Home() {
 
   const handleCheckoutClick = () => {
     window.open(
-      'https://withpaper.com/checkout/a7f941f2-0cc7-480e-8438-c5657f2275ef',
+      'https://withpaper.com/checkout/94db6d85-5d32-47f7-8230-e55861799422',
       '_blank'
     );
   };
@@ -299,10 +299,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-screen">
-      <ConnectWallet
-        className="!absolute !right-4 !top-4"
-        theme={theme}
-      />
+      
       <div className="grid h-screen grid-cols-1 lg:grid-cols-12">
         <div className="hidden h-full w-full items-center justify-center lg:col-span-5 lg:flex lg:px-12">
           <HeadingImage
