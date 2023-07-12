@@ -395,7 +395,7 @@ export default function Home() {
                       toast({
                         title: 'Successfully minted',
                         description:
-                          '1 Crypto Homie Genesis and 3 Crypto Homies Commons have been transferred to your wallet!',
+                          'Congrats! Your Crypto Homies Genesis NFT\'s are on their way!',
                         duration: 5000,
                         className: 'bg-green-500',
                       });
