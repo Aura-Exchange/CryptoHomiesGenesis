@@ -44,6 +44,12 @@ const colors = {
 } as const;
 
 export default function Home() {
+  const handleCheckoutClick = () => {
+    window.open(
+      "https://withpaper.com/checkout/94db6d85-5d32-47f7-8230-e55861799422",
+      "_blank"
+    );
+  };
   const contractQuery = useContract(contractAddress);
   const contractMetadata = useContractMetadata(contractQuery.contract);
   const { toast } = useToast();
@@ -78,7 +84,7 @@ export default function Home() {
     return BigNumber.from(claimedSupply.data || 0).toString();
   }, [claimedSupply]);
 
-  const { contract: totalSupplyContract } = useContract("0xD8bb5fcf7bE3A360A7c875F27bEd5DE46617c899");
+  const { contract: totalSupplyContract } = useContract("0xe6F328aD226B38801FF0216b4Bb7F03d629E85A5");
   const { data: numberTotal, isLoading: totalSupplyLoading } = useContractRead(totalSupplyContract, "totalSupply", []);
 
   const priceToMint = useMemo(() => {
@@ -346,7 +352,7 @@ export default function Home() {
                 <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-center lg:gap-4 ">
 
                   <Web3Button
-                    contractAddress="0xD8bb5fcf7bE3A360A7c875F27bEd5DE46617c899"
+                    contractAddress="0xe6F328aD226B38801FF0216b4Bb7F03d629E85A5"
                     action={(contract) => { contract.call("mint", [], { value: ethers.utils.parseEther("0.101") }) }}
                     onSuccess={() => {
                       toast({
@@ -360,6 +366,8 @@ export default function Home() {
                   >
                     Mint Now
                   </Web3Button>
+                  <button onClick={handleCheckoutClick}>Mint with Paper</button>
+
                 </div>
               </div>
             </div>
