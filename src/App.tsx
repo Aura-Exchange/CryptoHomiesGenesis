@@ -397,8 +397,9 @@ export default function Home() {
                       });
                     }}
                   >
-                    mint
+                    Mint
                   </Web3Button>
+                  <br/>
                   <label htmlFor="tokenAmount">Number of Genesis:</label>
                   <select
                     id="tokenAmount"
@@ -411,6 +412,7 @@ export default function Home() {
                       </option>
                     ))}
                   </select>
+                  <br/>
                   <button
                     onClick={handleCheckoutClick}
                     style={{
