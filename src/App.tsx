@@ -299,7 +299,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-screen">
-      
+
       <div className="grid h-screen grid-cols-1 lg:grid-cols-12">
         <div className="hidden h-full w-full items-center justify-center lg:col-span-5 lg:flex lg:px-12">
           <HeadingImage
@@ -409,9 +409,11 @@ export default function Home() {
                       onChange={handleInputChange}
                     />
                   </label>
-                  <button onClick={handleCheckoutClick}>
+                  <button onClick={handleCheckoutClick} style={{ backgroundColor: 'white', borderRadius: '8px', color: 'black', minWidth: '150px', minHeight: '43px' }}>
                     Mint with Paper
                   </button>
+
+
                 </div>
               </div>
             </div>
