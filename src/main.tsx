@@ -9,6 +9,7 @@ import {
   biconomyApiIdConst,
   biconomyApiKeyConst,
   chainConst,
+  clientIdConst,
   relayerUrlConst,
 } from "./consts/parameters";
 
@@ -25,6 +26,7 @@ const biconomyApiKey =
 const biconomyApiId =
   urlParams.get("biconomyApiId") || biconomyApiIdConst || "";
 const sdkOptions = getGasless(relayerUrl, biconomyApiKey, biconomyApiId);
+const clientId = urlParams.get("clientId") || clientIdConst || "";
 
 /* Use this when every embed changes to new embeds
 const network = urlParams.get("network") || "ethereum";
@@ -32,7 +34,11 @@ const activeChain = getChainBySlug(network); */
 
 root.render(
   <React.StrictMode>
-    <ThirdwebProvider activeChain={chain} sdkOptions={sdkOptions}>
+    <ThirdwebProvider 
+      activeChain={chain} 
+      sdkOptions={sdkOptions}
+      clientId={clientId}
+    >
       <Toaster />
       <App />
     </ThirdwebProvider>
