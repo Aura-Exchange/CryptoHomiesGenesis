@@ -21,4 +21,4 @@ export const relayerUrlConst = ""; // OpenZeppelin relayer URL
 export const biconomyApiKeyConst = ""; // Biconomy API key
 export const biconomyApiIdConst = ""; // Biconomy API ID
 
-export const clientIdConst = "";
+export const clientIdConst = "c26de8669f553892ef6322616ba6081e";
