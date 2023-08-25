@@ -369,7 +369,8 @@ export default function Home() {
                   </button>
                 </div>
               </div>
-              <a href={https://hub.auraexchange.org/collection/ethereum/0x5f8eD33d9eC6B28DAafa9A1f9faDff3D9f94e5fB} target="_blank" rel="noopener noreferrer">
+              
+              <a href="https://hub.auraexchange.org/collection/ethereum/0x5f8eD33d9eC6B28DAafa9A1f9faDff3D9f94e5fB" target="_blank" rel="noopener noreferrer">
                 View Collection on Aura Exchange
               </a>
             </div>
