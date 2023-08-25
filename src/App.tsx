@@ -157,14 +157,14 @@ export default function Home() {
       <div className="grid h-screen grid-cols-1 lg:grid-cols-12">
         <div className="hidden h-full w-full items-center justify-center lg:col-span-5 lg:flex lg:px-12">
           <img
-            src="https://bafybeifrdu43ddcecl5a4ipjrkrpfrperstxcpiuoicucxffp3l76ry7qy.gateway.ipfscdn.io/chg.gif"
+            src="https://ipfs.io/ipfs/bafybeifrdu43ddcecl5a4ipjrkrpfrperstxcpiuoicucxffp3l76ry7qy/chg.gif"
           />
         </div>
         <div className="col-span-1 flex h-full w-full items-center justify-center lg:col-span-7">
           <div className="flex w-full max-w-xl flex-col gap-4 rounded-xl p-12 lg:border lg:border-gray-400 lg:dark:border-gray-800">
             <div className="mt-8 flex w-full xs:mb-8 xs:mt-0 lg:hidden">
               <img
-                src="ipfs.io/ipfs/bafybeifrdu43ddcecl5a4ipjrkrpfrperstxcpiuoicucxffp3l76ry7qy/chg.gif"
+                src="https://ipfs.io/ipfs/bafybeifrdu43ddcecl5a4ipjrkrpfrperstxcpiuoicucxffp3l76ry7qy/chg.gif"
               />
             </div>
 
